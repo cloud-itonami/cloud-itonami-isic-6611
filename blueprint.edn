@@ -1,0 +1,11 @@
+{:itonami.blueprint/id "cloud-itonami-6611"
+ :itonami.blueprint/name "Administration of financial markets"
+ :itonami.blueprint/isic-rev5 "6611"
+ :itonami.blueprint/domain :finance/market-administration
+ :itonami.blueprint/license "AGPL-3.0-or-later"
+ :itonami.blueprint/social-impact [:financial-inclusion :data-sovereignty :transparency]
+ :itonami.blueprint/governor :market-administration-governor
+ :itonami.blueprint/required-technologies [:robotics :identity :forms :dmn :bpmn :audit-ledger :securities]
+ :itonami.blueprint/optional-technologies []
+ :itonami.blueprint/status :public-oss
+ :itonami.blueprint/robotics true}
