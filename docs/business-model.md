@@ -2,7 +2,7 @@
 
 ## Classification
 
-- Repository: `cloud-itonami-6611`
+- Repository: `cloud-itonami-isic-6611`
 - ISIC Rev.5: `6611`
 - Activity: administration of financial markets -- operating an exchange or organized trading venue, listing and market-surveillance administration
 - Social impact: financial inclusion, data sovereignty, transparent audit

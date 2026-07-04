@@ -1,6 +1,6 @@
 # Governance
 
-`cloud-itonami-6611` is an OSS open-business blueprint for administration of financial markets -- operating an exchange or organized trading venue, listing and market-surveillance administration.
+`cloud-itonami-isic-6611` is an OSS open-business blueprint for administration of financial markets -- operating an exchange or organized trading venue, listing and market-surveillance administration.
 Governance covers both the capability layer and the operator model.
 
 ## Maintainers

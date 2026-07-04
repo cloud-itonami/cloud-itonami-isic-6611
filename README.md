@@ -1,4 +1,4 @@
-# cloud-itonami-6611
+# cloud-itonami-isic-6611
 
 Open Business Blueprint for **ISIC Rev.5 6611**: Administration of financial markets.
 

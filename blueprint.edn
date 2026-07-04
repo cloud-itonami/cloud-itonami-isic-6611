@@ -1,4 +1,4 @@
-{:itonami.blueprint/id "cloud-itonami-6611"
+{:itonami.blueprint/id "cloud-itonami-isic-6611"
  :itonami.blueprint/name "Administration of financial markets"
  :itonami.blueprint/isic-rev5 "6611"
  :itonami.blueprint/domain :finance/market-administration
