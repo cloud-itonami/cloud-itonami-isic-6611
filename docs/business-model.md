@@ -30,7 +30,16 @@
 
 ## Trust Controls
 
-- no listing is admitted and no trade-halt is lifted without human sign-off
-- a fabricated market-rule citation forces a hold, not an override
-- every surveillance action is auditable
+- no listing is admitted and no trade-halt is lifted without human
+  sign-off
+- a fabricated jurisdiction market-rule citation, incomplete listing
+  evidence, a listing whose own market capitalization falls below the
+  minimum listing standard, an unresolved surveillance flag, or a
+  halt-lift attempt against a listing with no active halt -- each
+  forces a hold, not an override
+- a listing cannot be admitted twice: a double-admission attempt is
+  held off this actor's own listing facts alone, with no upstream
+  comparison needed
+- every intake, assessment, screening, admission and halt-lift path is
+  auditable
 - emergency manual override paths remain outside LLM control
