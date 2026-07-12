@@ -28,9 +28,9 @@
     (is (= (get-in result ["record" "immutable"]) true))))
 
 (deftest listing-admission-validation-rules
-  (is (thrown? Exception (r/register-listing-admission "" "JPN" 0)))
-  (is (thrown? Exception (r/register-listing-admission "listing-1" "" 0)))
-  (is (thrown? Exception (r/register-listing-admission "listing-1" "JPN" -1))))
+  (is (thrown? #?(:clj Exception :cljs js/Error) (r/register-listing-admission "" "JPN" 0)))
+  (is (thrown? #?(:clj Exception :cljs js/Error) (r/register-listing-admission "listing-1" "" 0)))
+  (is (thrown? #?(:clj Exception :cljs js/Error) (r/register-listing-admission "listing-1" "JPN" -1))))
 
 (deftest admission-history-is-append-only
   (let [a1 (r/register-listing-admission "listing-1" "JPN" 0)
@@ -57,9 +57,9 @@
     (is (= (get-in result ["record" "immutable"]) true))))
 
 (deftest halt-lift-validation-rules
-  (is (thrown? Exception (r/register-halt-lift "" "JPN" 0)))
-  (is (thrown? Exception (r/register-halt-lift "listing-5" "" 0)))
-  (is (thrown? Exception (r/register-halt-lift "listing-5" "JPN" -1))))
+  (is (thrown? #?(:clj Exception :cljs js/Error) (r/register-halt-lift "" "JPN" 0)))
+  (is (thrown? #?(:clj Exception :cljs js/Error) (r/register-halt-lift "listing-5" "" 0)))
+  (is (thrown? #?(:clj Exception :cljs js/Error) (r/register-halt-lift "listing-5" "JPN" -1))))
 
 (deftest lift-history-is-append-only
   (let [l1 (r/register-halt-lift "listing-5" "JPN" 0)

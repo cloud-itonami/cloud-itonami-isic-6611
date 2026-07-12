@@ -96,16 +96,36 @@
   discipline `accounting.governor`'s guards establish, informed by
   `cloud-itonami-isic-6492`'s status-lifecycle bug."
   (:require [marketadmin.facts :as facts]
+            [marketadmin.kernels.gate :as gate]
             [marketadmin.registry :as registry]
             [marketadmin.store :as store]))
 
-(def confidence-floor 0.6)
+(def confidence-floor
+  "Documented threshold. The DECIDING copy is
+  `marketadmin.kernels.gate/confidence-floor-x100` (integer x100 in
+  the safety kernel); this def is kept for callers/docs and pinned
+  equal by `marketadmin.kernels.gate-test`."
+  0.6)
 
 (def high-stakes
   "Stakes grave enough to always require a human, even when clean.
   Admitting a real listing to trading and lifting a real trade halt
   are the two real-world actuation events this actor performs."
   #{:actuation/admit-listing :actuation/lift-halt})
+
+(defn- confidence->x100
+  "Host bridge (façade-side, not kernel vocabulary): scale a 0.0..1.0
+  advisor confidence to the kernel's integer x100 wire code."
+  [c]
+  (Math/round (* 100.0 (double c))))
+
+(defn- market-cap->int
+  "Host bridge (façade-side, not kernel vocabulary): floor a market
+  capitalization to the kernel's integer wire value. Floor is exact
+  for a MINIMUM-threshold check against an integral constant:
+  mc >= min iff floor(mc) >= min."
+  [mc]
+  (long (Math/floor (double mc))))
 
 ;; ----------------------------- checks -----------------------------
 
@@ -142,11 +162,15 @@
   market-cap` -- needs no proposal inspection or stored-verdict lookup
   at all, since its input is a permanent ground-truth field already on
   the listing. The FIRST check in this fleet to enforce a MINIMUM
-  threshold rather than a maximum ceiling."
+  threshold rather than a maximum ceiling. The DECIDING comparison is
+  in-kernel (`gate/standard-below-minimum` against
+  `gate/minimum-market-cap`, pinned equal to
+  `registry/minimum-market-cap` by `marketadmin.kernels.gate-test`);
+  this façade keeps the human-readable evidence."
   [{:keys [op subject]} st]
   (when (= op :listing/admit)
     (let [l (store/listing st subject)]
-      (when-not (registry/listing-standard-met? l)
+      (when (= 1 (gate/standard-below-minimum (market-cap->int (:market-cap l 0))))
         [{:rule :listing-standard-not-met
           :detail (str subject " の時価総額(" (:market-cap l)
                       ")が上場基準の最低額(" registry/minimum-market-cap ")を下回っている")}]))))
@@ -194,22 +218,40 @@
    {:ok? bool :violations [..] :confidence c :escalate? bool :high-stakes? bool
     :hard? bool}."
   [request _context proposal st]
-  (let [hard (into []
-                   (concat (spec-basis-violations request proposal)
-                           (evidence-incomplete-violations request st)
-                           (listing-standard-not-met-violations request st)
-                           (surveillance-flag-unresolved-violations request proposal st)
-                           (halt-not-active-violations request st)
-                           (already-admitted-violations request st)))
+  (let [spec-v (spec-basis-violations request proposal)
+        evid-v (evidence-incomplete-violations request st)
+        std-v  (listing-standard-not-met-violations request st)
+        surv-v (surveillance-flag-unresolved-violations request proposal st)
+        halt-v (halt-not-active-violations request st)
+        adm-v  (already-admitted-violations request st)
+        hard (into [] (concat spec-v evid-v std-v surv-v halt-v adm-v))
         conf (:confidence proposal 0.0)
-        low? (< conf confidence-floor)
         stakes? (boolean (high-stakes (:stake proposal)))
-        hard? (boolean (seq hard))]
-    {:ok?          (and (not hard?) (not low?) (not stakes?))
+        admit? (= (:op request) :listing/admit)
+        mcap (if admit?
+               (market-cap->int (:market-cap (store/listing st (:subject request)) 0))
+               0)
+        ;; The decision itself is delegated to the safety kernel
+        ;; (marketadmin.kernels.gate, integer-coded fail-closed core);
+        ;; this façade only gathers evidence (violation lists with
+        ;; human-readable details) and maps codes back to keywords.
+        ;; Kernel is stricter than the old inline logic on ONE case by
+        ;; design: an out-of-range confidence (< 0 or > 1.0) now
+        ;; escalates instead of counting as high confidence.
+        code (gate/verdict-code (if (seq spec-v) 1 0)
+                                (if (seq evid-v) 1 0)
+                                (if admit? 1 0)
+                                mcap
+                                (if (seq surv-v) 1 0)
+                                (if (seq halt-v) 1 0)
+                                (if (seq adm-v) 1 0)
+                                (confidence->x100 conf)
+                                (if stakes? 1 0))]
+    {:ok?          (= 0 code)
      :violations   hard
      :confidence   conf
-     :hard?        hard?
-     :escalate?    (and (not hard?) (or low? stakes?))
+     :hard?        (= 2 code)
+     :escalate?    (= 1 code)
      :high-stakes? stakes?}))
 
 (defn hold-fact
