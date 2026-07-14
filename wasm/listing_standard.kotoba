@@ -1,0 +1,15 @@
+(ns cloud-itonami-listing-standard)
+
+(defn listing-standard-met? [market-cap]
+  (>= market-cap 4000000))
+
+;; ABI: `main` stays 0-arity (the compiler rejects a parameterized main --
+;; :main-arity, see kotoba-lang/kotoba's compile-wasm-expr) and reads its
+;; one real i32 input out of the exported linear memory instead, at a
+;; fixed byte offset a host writes into before calling main() (same
+;; convention as cloud-itonami-isic-6492's affordability.kotoba /
+;; cloud-itonami-isic-6511's underwriting_decision.kotoba):
+;;   offset 0: market-cap  (i32, whole USD dollars)
+;; Returns 1 (listing standard met) or 0 (not met).
+(defn main []
+  (listing-standard-met? (mem-i32-at 0 0)))

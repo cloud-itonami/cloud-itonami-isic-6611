@@ -13,6 +13,17 @@
   Datomic-API-compatible store — the kotoba-server / kotobase datom
   seam — under ClojureScript.
 
+  DELIBERATE EXCLUSION: `wasm.listing-standard-test` is NOT required or
+  run here — it hosts wasm/listing_standard.wasm via kototama.tender
+  (Chicory), a JVM-only WASM host with direct Java interop
+  (.readAllBytes / .memory / .writeI32), so it stays a `.clj` file and
+  runs only under the JVM gate. The listing-standard DECISION itself is
+  covered under ClojureScript by
+  `marketadmin.kernels.gate-test/minimum-market-cap-pinned-to-registry-
+  constant` (the kernel restates the same exact-integer minimum-
+  market-cap comparison the `.kotoba` guest makes, including the
+  boundary).
+
   Invoke from the repo root (the :test alias's :main-opts would steal
   -m if combined, hence -Sdeps for the extra path):
 
