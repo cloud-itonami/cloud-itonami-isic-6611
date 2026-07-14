@@ -160,6 +160,7 @@ its own capability lib.
 | `src/marketadmin/operation.cljc` | **OperationActor** -- langgraph-clj StateGraph |
 | `src/marketadmin/sim.cljc` | demo driver |
 | `test/marketadmin/*_test.clj` | governor contract · phase invariants · store parity · registry conformance · facts coverage |
+| `wasm/listing_standard.kotoba` | PoC: a WASM-compiled (`kotoba-lang/kotoba` -> `kotoba-lang/kototama`'s `actor:host` ABI) port of `marketadmin.registry/listing-standard-met?` (the MINIMUM-market-cap listing standard) -- see `wasm/README.md` for scope, the input/output ABI, and what's out of scope |
 
 ## Business-process coverage (honest)
 
