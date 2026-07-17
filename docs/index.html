@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administration of financial markets — ISIC 6611</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #fafafa;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #000;
+        }
+        .isic-badge {
+            display: inline-block;
+            background: #007bff;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 30px;
+        }
+        .pitch {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin-bottom: 40px;
+            color: #444;
+        }
+        .cta-section {
+            margin-bottom: 50px;
+        }
+        .cta-primary {
+            display: inline-block;
+            background: #28a745;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 500;
+            margin-right: 12px;
+            margin-bottom: 12px;
+            transition: background 0.3s;
+        }
+        .cta-primary:hover {
+            background: #218838;
+        }
+        .cta-secondary {
+            display: inline-block;
+            background: #6c757d;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 500;
+            margin-right: 12px;
+            margin-bottom: 12px;
+            transition: background 0.3s;
+        }
+        .cta-secondary:hover {
+            background: #5a6268;
+        }
+        .links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .link-item {
+            display: flex;
+            align-items: center;
+        }
+        .link-item a {
+            color: #007bff;
+            text-decoration: none;
+            margin-left: 8px;
+        }
+        .link-item a:hover {
+            text-decoration: underline;
+        }
+        .footer {
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid #ddd;
+            font-size: 0.875rem;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Administration of financial markets</h1>
+        <div class="isic-badge">ISIC Rev.5 6611</div>
+
+        <div class="pitch">
+            <p>
+                An open-source business blueprint for exchange operators to fork and deploy. This actor governs listing intake, market-rule disclosure, surveillance screening, and listing admission with an independent Market Administration Governor and immutable audit ledger. No listing is admitted and no trade halt is lifted without human sign-off, ensuring compliance by construction.
+            </p>
+        </div>
+
+        <div class="cta-section">
+            <h2 style="font-size: 1.3rem; margin-bottom: 16px;">Get started</h2>
+            <a href="https://itonami.cloud/isco-1212/" class="cta-primary">Fork + self-host on itonami.cloud</a>
+            <a href="https://itonami.cloud/docs/go-live.md" class="cta-secondary">Explore paid hosting & support</a>
+        </div>
+
+        <div class="cta-section">
+            <h2 style="font-size: 1.3rem; margin-bottom: 16px;">Documentation</h2>
+            <div class="links">
+                <div class="link-item">
+                    <span>→</span>
+                    <a href="../README.md">Repository overview</a>
+                </div>
+                <div class="link-item">
+                    <span>→</span>
+                    <a href="operator-quickstart.md">Operator quickstart</a>
+                </div>
+                <div class="link-item">
+                    <span>→</span>
+                    <a href="business-model.md">Business model</a>
+                </div>
+                <div class="link-item">
+                    <span>→</span>
+                    <a href="operator-guide.md">Operator guide</a>
+                </div>
+                <div class="link-item">
+                    <span>→</span>
+                    <a href="adr/0001-architecture.md">Architecture & design</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>
+                This repository is licensed under AGPL-3.0-or-later.
+                <a href="https://github.com/com-junkawasaki/cloud-itonami-isic-6611" style="color: #007bff;">View on GitHub</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>
