@@ -1,5 +1,9 @@
 # Operator Quickstart
 
+## Who this is for
+
+This quickstart is for exchange operators and compliance teams evaluating or deploying the Market Administration Governor. If you're running a licensed exchange or starting one, this walks you through running the code locally, understanding the governor contract, and tracing the safeguards that prevent listing admission and trade-halt lift without human sign-off.
+
 ## Prerequisites
 
 - Clojure CLI tools (`clojure` command)

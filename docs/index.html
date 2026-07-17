@@ -100,6 +100,35 @@
             font-size: 0.875rem;
             color: #666;
         }
+        .footer a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: #1a1a1a;
+                color: #e0e0e0;
+            }
+            h1 {
+                color: #fff;
+            }
+            .pitch {
+                color: #d0d0d0;
+            }
+            div[style*="background: #f0f0f0"] {
+                background: #2a2a2a !important;
+            }
+            div[style*="background: #f0f0f0"] p {
+                color: #c0c0c0 !important;
+            }
+            .footer {
+                border-top-color: #444;
+                color: #999;
+            }
+        }
     </style>
 </head>
 <body>
@@ -109,14 +138,23 @@
 
         <div class="pitch">
             <p>
-                An open-source business blueprint for exchange operators to fork and deploy. This actor governs listing intake, market-rule disclosure, surveillance screening, and listing admission with an independent Market Administration Governor and immutable audit ledger. No listing is admitted and no trade halt is lifted without human sign-off, ensuring compliance by construction.
+                <strong>The problem:</strong> LLMs excel at intake normalization and threshold checks, but can fabricate jurisdiction requirements, overlook surveillance flags, or admit listings that don't meet your listing standard — all with no way to recover.
+            </p>
+            <p style="margin-top: 16px;">
+                <strong>The solution:</strong> An independent Market Administration Governor holds every listing admission and trade-halt lift decision. It re-verifies against your jurisdiction facts, minimum market-cap threshold, and surveillance status before any action reaches production. No governor sign-off, no execution.
+            </p>
+        </div>
+
+        <div style="margin-bottom: 40px; padding: 20px; background: #f0f0f0; border-radius: 4px;">
+            <p style="font-size: 0.95rem; color: #555;">
+                <strong>What this is not:</strong> This project does not claim to hold an exchange license, and does not perform full listing review (no public-float/shareholder-count analysis, no corporate-governance standards, no operating-history requirements). It provides the governed execution scaffold so you don't rebuild the compliance layer from scratch.
             </p>
         </div>
 
         <div class="cta-section">
             <h2 style="font-size: 1.3rem; margin-bottom: 16px;">Get started</h2>
-            <a href="https://itonami.cloud/isco-1212/" class="cta-primary">Fork + self-host on itonami.cloud</a>
-            <a href="https://itonami.cloud/docs/go-live.md" class="cta-secondary">Explore paid hosting & support</a>
+            <a href="https://itonami.cloud/isco-1212/" class="cta-primary">Claim free tenant</a>
+            <a href="https://itonami.cloud/docs/go-live.md" class="cta-secondary">Go-live guide</a>
         </div>
 
         <div class="cta-section">
