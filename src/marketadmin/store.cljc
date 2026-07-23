@@ -30,10 +30,9 @@
   approved by whom' is always a query over an immutable log -- the
   audit trail an issuer trusting an exchange needs, and the evidence an
   operator needs if an admission or a halt-lift is later disputed."
-  (:require #?(:clj  [clojure.edn :as edn]
-               :cljs [cljs.reader :as edn])
-            [marketadmin.registry :as registry]
-            [langchain.db :as d]))
+  (:require [marketadmin.registry :as registry]
+            [langchain.db :as d]
+            [langchain-store.core :as ls]))
 
 (defprotocol Store
   (listing [s id])
@@ -187,9 +186,6 @@
    :sequence/jurisdiction       {:db/unique :db.unique/identity}
    :lift-sequence/jurisdiction  {:db/unique :db.unique/identity}})
 
-(defn- enc [v] (pr-str v))
-(defn- dec* [s] (when s (edn/read-string s)))
-
 (defn- listing->tx [{:keys [id issuer security-type market-cap surveillance-flag? halt-active? halt-reason
                            admitted? jurisdiction status admission-number lift-number]}]
   (cond-> {:listing/id id}
@@ -228,25 +224,25 @@
          (map #(pull->listing (d/pull (d/db conn) listing-pull [:listing/id %])))
          (sort-by :id)))
   (surveillance-of [_ id]
-    (dec* (d/q '[:find ?p . :in $ ?lid
+    (ls/dec* (d/q '[:find ?p . :in $ ?lid
                 :where [?k :surveillance/listing-id ?lid] [?k :surveillance/payload ?p]]
               (d/db conn) id)))
   (assessment-of [_ listing-id]
-    (dec* (d/q '[:find ?p . :in $ ?lid
+    (ls/dec* (d/q '[:find ?p . :in $ ?lid
                 :where [?a :assessment/listing-id ?lid] [?a :assessment/payload ?p]]
               (d/db conn) listing-id)))
   (ledger [_]
     (->> (d/q '[:find ?s ?f :where [?e :ledger/seq ?s] [?e :ledger/fact ?f]] (d/db conn))
          (sort-by first)
-         (mapv (comp dec* second))))
+         (mapv (comp ls/dec* second))))
   (admission-history [_]
     (->> (d/q '[:find ?s ?r :where [?e :admission/seq ?s] [?e :admission/record ?r]] (d/db conn))
          (sort-by first)
-         (mapv (comp dec* second))))
+         (mapv (comp ls/dec* second))))
   (lift-history [_]
     (->> (d/q '[:find ?s ?r :where [?e :lift/seq ?s] [?e :lift/record ?r]] (d/db conn))
          (sort-by first)
-         (mapv (comp dec* second))))
+         (mapv (comp ls/dec* second))))
   (next-sequence [_ jurisdiction]
     (or (d/q '[:find ?n . :in $ ?j
               :where [?e :sequence/jurisdiction ?j] [?e :sequence/next ?n]]
@@ -265,10 +261,10 @@
       (d/transact! conn [(listing->tx value)])
 
       :assessment/set
-      (d/transact! conn [{:assessment/listing-id (first path) :assessment/payload (enc payload)}])
+      (d/transact! conn [{:assessment/listing-id (first path) :assessment/payload (ls/enc payload)}])
 
       :surveillance/set
-      (d/transact! conn [{:surveillance/listing-id (first path) :surveillance/payload (enc payload)}])
+      (d/transact! conn [{:surveillance/listing-id (first path) :surveillance/payload (ls/enc payload)}])
 
       :listing/mark-admitted
       (let [listing-id (first path)
@@ -278,7 +274,7 @@
         (d/transact! conn
                      [(listing->tx (assoc listing-patch :id listing-id))
                       {:sequence/jurisdiction jurisdiction :sequence/next next-n}
-                      {:admission/seq (count (admission-history s)) :admission/record (enc (get result "record"))}])
+                      {:admission/seq (count (admission-history s)) :admission/record (ls/enc (get result "record"))}])
         result)
 
       :listing/mark-halt-lifted
@@ -289,12 +285,12 @@
         (d/transact! conn
                      [(listing->tx (assoc listing-patch :id listing-id))
                       {:lift-sequence/jurisdiction jurisdiction :lift-sequence/next next-n}
-                      {:lift/seq (count (lift-history s)) :lift/record (enc (get result "record"))}])
+                      {:lift/seq (count (lift-history s)) :lift/record (ls/enc (get result "record"))}])
         result)
       nil)
     s)
   (append-ledger! [s fact]
-    (d/transact! conn [{:ledger/seq (count (ledger s)) :ledger/fact (enc fact)}])
+    (d/transact! conn [{:ledger/seq (count (ledger s)) :ledger/fact (ls/enc fact)}])
     fact)
   (with-listings [s listings]
     (when (seq listings) (d/transact! conn (mapv listing->tx (vals listings)))) s))
