@@ -16,6 +16,18 @@
          {:local/root "../../kotoba-lang/langchain"}}}
   ;; clojure -M:dev:run  -> drive the demo through one OperationActor
   :run {:main-opts ["-m" "marketadmin.sim"]}
+  ;; clojure -M:dev:render-html [out-file]
+  ;;   -> regenerate docs/samples/operator-console.html by RUNNING the real
+  ;;      actor stack (operation -> governor -> store) and reading the result
+  ;;      back out of the store. Fails the build if the governor produces no
+  ;;      HARD hold. jp-go-dds (デジタル庁デザインシステム) is a git dep, not
+  ;;      :local/root, so the generator still resolves in a standalone fork;
+  ;;      it is scoped to this alias so the actor's own runtime and the :test
+  ;;      / :cljs gates keep their small dependency set.
+  :render-html {:extra-deps {io.github.kotoba-lang/jp-go-digital-design-system
+                             {:git/url "https://github.com/kotoba-lang/jp-go-digital-design-system"
+                              :git/sha "83db99546eabc53613ae826ea41d1533a3c574af"}}
+                :main-opts ["-m" "marketadmin.render-html"]}
   :test {:extra-paths ["test"]
          :extra-deps {io.github.cognitect-labs/test-runner
                       {:git/tag "v0.5.1" :git/sha "dfb30dd"}
