@@ -314,7 +314,10 @@
 (defn- hard-hold-section [ledger]
   (let [holds (filter #(= :governor-hold (:t %)) ledger)]
     (section
-     (str "HARD governor holds this run (" (count holds) " holds &middot; "
+     ;; NOTE: `section` escapes the title, so this string must carry the
+     ;; literal character, not the `&middot;` entity -- an entity here
+     ;; would be escaped again and shown to the operator as raw text.
+     (str "HARD governor holds this run (" (count holds) " holds · "
           (count (distinct (mapcat :basis holds))) " distinct rules)")
      (str "Every row is a " (code ":governor-hold") " fact the governor itself wrote. "
           "HARD means un-overridable: none of these ever reached the "
