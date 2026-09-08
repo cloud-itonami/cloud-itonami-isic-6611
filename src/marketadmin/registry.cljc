@@ -31,7 +31,7 @@
   the halt itself (those are `marketadmin.operation`'s `:listing/admit`
   and `:trade-halt/lift`, always human-gated -- see README
   `Actuation`)."
-  (:require [clojure.string :as str]))
+  (:require [kotoba.lang.text :as str]))
 
 (defn- unsigned-certificate
   "Every certificate this actor produces is UNSIGNED -- signature is the
@@ -84,7 +84,7 @@
     (throw (ex-info "listing-admission: jurisdiction required" {})))
   (when (< sequence 0)
     (throw (ex-info "listing-admission: sequence must be >= 0" {})))
-  (let [admission-number (str (str/upper-case jurisdiction) "-LIST-" (zero-pad sequence 6))
+  (let [admission-number (str (str/upper jurisdiction) "-LIST-" (zero-pad sequence 6))
         record {"record_id" admission-number
                 "kind" "listing-admission-draft"
                 "listing_id" listing-id
@@ -106,7 +106,7 @@
     (throw (ex-info "halt-lift: jurisdiction required" {})))
   (when (< sequence 0)
     (throw (ex-info "halt-lift: sequence must be >= 0" {})))
-  (let [lift-number (str (str/upper-case jurisdiction) "-HALT-" (zero-pad sequence 6))
+  (let [lift-number (str (str/upper jurisdiction) "-HALT-" (zero-pad sequence 6))
         record {"record_id" lift-number
                 "kind" "halt-lift-draft"
                 "listing_id" listing-id
