@@ -9,10 +9,10 @@
   `marketadmin.store/seed-db`. Nothing on the page is typed in by hand:
   if you change `store/demo-data`, `facts/catalog`, `registry/minimum-
   market-cap` or any governor rule, the page changes on the next
-  `clojure -M:dev:render-html`.
+  `kbb -M:dev:render-html`.
 
   The scenario is an extension of this repo's own demo driver
-  (`marketadmin.sim`, `clojure -M:dev:run`, run and read BEFORE writing
+  (`marketadmin.sim`, `kbb -M:dev:run`, run and read BEFORE writing
   this file so the ids used here are the real seeded `listing-1`..
   `listing-6`), widened to exercise ALL SIX of the governor's HARD rules
   rather than sim's five -- `:evidence-incomplete` is added by attempting
@@ -25,7 +25,7 @@
   iterated in sorted or run order. Two consecutive runs are byte-
   identical.
 
-  Usage: `clojure -M:dev:render-html [out-file]`
+  Usage: `kbb -M:dev:render-html [out-file]`
   (default `docs/samples/operator-console.html`)."
   (:require [kotoba.lang.text :as str]
             [jp-go-dds.skin]
@@ -516,7 +516,7 @@
      "<main>\n"
      "  <section class=\"banner\">\n"
      "    <p>Generated at build time by <code>marketadmin.render-html</code> "
-     "(<code>clojure -M:dev:render-html</code>) from a real run of "
+     "(<code>kbb -M:dev:render-html</code>) from a real run of "
      "<code>marketadmin.operation</code> &rarr; <code>marketadmin.governor</code> &rarr; "
      "<code>marketadmin.store</code>. Nothing below is hand-written: "
      (str (count runs)) " actor runs produced " (str (count ledger))
@@ -536,7 +536,7 @@
      "</main>\n"
      "<footer>\n"
      "  <p>cloud-itonami-isic-6611 &middot; AGPL-3.0-or-later &middot; "
-     "regenerate with <code>clojure -M:dev:render-html</code>. "
+     "regenerate with <code>kbb -M:dev:render-html</code>. "
      "This page is a demo against <code>marketadmin.store/seed-db</code>; it is not "
      "connected to any real exchange or trading system, and every certificate this "
      "actor drafts is unsigned.</p>\n"
