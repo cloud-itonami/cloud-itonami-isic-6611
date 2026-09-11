@@ -15,7 +15,7 @@ For standalone fork: `deps.edn` defaults to GitHub coordinates; local monorepo p
 ## Run tests
 
 ```bash
-clojure -M:dev:test
+kbb -M:dev:test
 ```
 
 This runs the complete test suite covering:
@@ -29,7 +29,7 @@ This runs the complete test suite covering:
 ## Run the demo
 
 ```bash
-clojure -M:dev:run
+kbb -M:dev:run
 ```
 
 This drives the `OperationActor` through:
@@ -57,7 +57,7 @@ Other core namespaces:
 ## Linting
 
 ```bash
-clojure -M:lint
+kbb -M:lint
 ```
 
 Runs `clj-kondo` (errors fail, CI mirrors this).
