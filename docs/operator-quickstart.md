@@ -40,7 +40,7 @@ Output shows each step, the governor's decision, and audit ledger entries.
 
 ## Where the Governor lives
 
-The **Market Administration Governor** is implemented in `src/marketadmin/governor.cljc`, lines 1–250 (approximately).
+The **Market Administration Governor** is implemented in `src/marketadmin/governor.cljk`, lines 1–250 (approximately).
 
 Key entry points:
 - `gate` function: core guard logic (spec-basis, evidence-incomplete, listing-standard-not-met, surveillance-flag-unresolved, halt-not-active, already-admitted, confidence/actuation)
@@ -48,11 +48,11 @@ Key entry points:
 - See docstring for full contract and hard-hold conditions
 
 Other core namespaces:
-- `src/marketadmin/registry.cljc` — listing-admission/halt-lift records, `minimum-market-cap`, `listing-standard-met?`
-- `src/marketadmin/store.cljc` — append-only ledger and listing store
-- `src/marketadmin/phase.cljc` — phase 0→3, auto-eligibility rules
-- `src/marketadmin/marketopsllm.cljc` — MarketOps-LLM advisor (mock + LLM modes)
-- `src/marketadmin/operation.cljc` — StateGraph actor orchestration
+- `src/marketadmin/registry.cljk` — listing-admission/halt-lift records, `minimum-market-cap`, `listing-standard-met?`
+- `src/marketadmin/store.cljk` — append-only ledger and listing store
+- `src/marketadmin/phase.cljk` — phase 0→3, auto-eligibility rules
+- `src/marketadmin/marketopsllm.cljk` — MarketOps-LLM advisor (mock + LLM modes)
+- `src/marketadmin/operation.cljk` — StateGraph actor orchestration
 
 ## Linting
 

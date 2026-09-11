@@ -151,14 +151,14 @@ its own capability lib.
 
 | File | Role |
 |---|---|
-| `src/marketadmin/store.cljc` | **Store** protocol -- `MemStore` ‖ `DatomicStore` (`langchain.db`) + append-only audit ledger + listing-admission/halt-lift history. No dynamically-filed sub-record -- both actuation ops act directly on a pre-seeded listing; an active halt lives inline on the listing, and lifting it clears the field (doubling as the double-lift guard) |
-| `src/marketadmin/registry.cljc` | Listing-admission + halt-lift draft records, plus `minimum-market-cap`/`listing-standard-met?` -- the FIRST check in this fleet to enforce a MINIMUM threshold rather than a maximum ceiling |
-| `src/marketadmin/facts.cljc` | Per-jurisdiction exchange-registration/listing-rule catalog with an official spec-basis citation per entry, honest coverage reporting |
-| `src/marketadmin/marketopsllm.cljc` | **MarketOps-LLM Advisor** -- `mock-advisor` ‖ `llm-advisor`; intake/assessment/surveillance-screening/admission/halt-lift proposals |
-| `src/marketadmin/governor.cljc` | **Market Administration Governor** -- 4 HARD checks (spec-basis · evidence-incomplete · listing-standard-not-met, pure ground-truth MINIMUM-threshold recompute · surveillance-flag-unresolved, unconditional evaluation) + halt-not-active/already-admitted guards + 1 soft (confidence/actuation gate) |
-| `src/marketadmin/phase.cljc` | **Phase 0→3** -- read-only → assisted intake → assisted assess → supervised (admission/lift always human; listing intake is the ONLY auto-eligible op, no capital risk) |
-| `src/marketadmin/operation.cljc` | **OperationActor** -- langgraph-clj StateGraph |
-| `src/marketadmin/sim.cljc` | demo driver |
+| `src/marketadmin/store.cljk` | **Store** protocol -- `MemStore` ‖ `DatomicStore` (`langchain.db`) + append-only audit ledger + listing-admission/halt-lift history. No dynamically-filed sub-record -- both actuation ops act directly on a pre-seeded listing; an active halt lives inline on the listing, and lifting it clears the field (doubling as the double-lift guard) |
+| `src/marketadmin/registry.cljk` | Listing-admission + halt-lift draft records, plus `minimum-market-cap`/`listing-standard-met?` -- the FIRST check in this fleet to enforce a MINIMUM threshold rather than a maximum ceiling |
+| `src/marketadmin/facts.cljk` | Per-jurisdiction exchange-registration/listing-rule catalog with an official spec-basis citation per entry, honest coverage reporting |
+| `src/marketadmin/marketopsllm.cljk` | **MarketOps-LLM Advisor** -- `mock-advisor` ‖ `llm-advisor`; intake/assessment/surveillance-screening/admission/halt-lift proposals |
+| `src/marketadmin/governor.cljk` | **Market Administration Governor** -- 4 HARD checks (spec-basis · evidence-incomplete · listing-standard-not-met, pure ground-truth MINIMUM-threshold recompute · surveillance-flag-unresolved, unconditional evaluation) + halt-not-active/already-admitted guards + 1 soft (confidence/actuation gate) |
+| `src/marketadmin/phase.cljk` | **Phase 0→3** -- read-only → assisted intake → assisted assess → supervised (admission/lift always human; listing intake is the ONLY auto-eligible op, no capital risk) |
+| `src/marketadmin/operation.cljk` | **OperationActor** -- langgraph-clj StateGraph |
+| `src/marketadmin/sim.cljk` | demo driver |
 | `test/marketadmin/*_test.clj` | governor contract · phase invariants · store parity · registry conformance · facts coverage |
 | `wasm/listing_standard.kotoba` | PoC: a WASM-compiled (`kotoba-lang/kotoba` -> `kotoba-lang/kototama`'s `actor:host` ABI) port of `marketadmin.registry/listing-standard-met?` (the MINIMUM-market-cap listing standard) -- see `wasm/README.md` for scope, the input/output ABI, and what's out of scope |
 

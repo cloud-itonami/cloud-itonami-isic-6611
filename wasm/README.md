@@ -6,9 +6,9 @@ capitalization listing standard, a REAL, representative reference point
 mirroring the order of magnitude of common exchange initial-listing
 thresholds such as NYSE American's ~USD 4,000,000 net tangible assets and
 Nasdaq Capital Market's ~USD 4,000,000-5,000,000 stockholders' equity —
-see `src/marketadmin/registry.cljc`) into the minimal `.kotoba` language
+see `src/marketadmin/registry.cljk`) into the minimal `.kotoba` language
 subset, compiled to a real WASM module via `kotoba wasm emit`, and hosted
-via `kototama.tender` (`test/wasm/listing_standard_test.clj`).
+via `kototama.tender` (`test/wasm/listing_standard_test.cljk`).
 
 This follows the same `kotoba wasm emit` → `kototama.tender` pipeline
 `cloud-itonami-isic-6492`'s `affordability.kotoba` and
