@@ -1,0 +1,43 @@
+;; What this vertical's robot physically does, declared for
+;; kotoba.robotics.process (kotoba-lang/robotics). `kbb -M:dev:physics` runs it.
+;;
+;; README "Robotics premise": a facility-access control robot manages physical
+;; trading-floor access where one exists (ISIC 6611, administration of
+;; financial markets). Its physical work: answering a door alarm on the
+;; trading floor, swinging a heavy access door open for an authorised person,
+;; and relying on that door as a fire separation.
+;;
+;; Every number without a cited source is marked `estimate` in its :basis.
+;; Replacing an estimate with a sourced value is this bot's growth work.
+{:physics/schema "itonami.physical-ai.spec.v1"
+ :repo "cloud-itonami/cloud-itonami-isic-6611"
+ :cases
+ [{:id :respond-to-door-alarm
+   :kind :transport
+   :procedure "access-control robot drives from its post to a trading-floor door that raised an alarm"
+   :params {:mass-kg 55.0 :payload-kg 0.0 :v-max-mps 1.5 :a-max-mps2 0.8
+            :brake-decel-mps2 1.2 :drive-force-n 200.0 :crr 0.015
+            :cog-height-m 0.60 :support-half-length-m 0.25 :max-time-s 1800.0}
+   :sweep {:param :distance-m :values [10.0 25.0 50.0 80.0 120.0]}
+   :quantity :cycle-time-s
+   :limit {:max 60.0 :basis "estimate: on-site response to an access alarm inside one minute"}
+   :boundary {:lo 5.0 :hi 300.0}}
+  {:id :swing-access-door-leaf
+   :kind :manipulator
+   :procedure "arm pulls the access door's pull handle through its first arc (door leaf reflected as an effective mass at the handle)"
+   :params {:l1-m 0.45 :l2-m 0.40 :m1-kg 4.0 :m2-kg 3.0
+            :from [0.70 0.20] :to [0.30 0.20] :duration-s 1.5 :steps 400}
+   :sweep {:param :payload-kg :values [2.0 5.0 10.0 15.0 20.0]}
+   :quantity :peak-tau1-nm
+   :limit {:max 90.0 :basis "estimate: continuous shoulder torque of a 10 kg-class collaborative arm"}
+   :boundary {:lo 0.5 :hi 60.0}}
+  {:id :trading-floor-door-fire
+   :kind :thermal
+   :procedure "insulated door leaf between trading floor and corridor under 30 min of the ISO 834-1 standard fire; unexposed face temperature"
+   :params {:conductivity-w-mk 0.12 :density-kg-m3 600.0 :specific-heat-j-kgk 1000.0
+            :hot-curve :iso-834 :h-front-w-m2k 25.0 :h-back-w-m2k 9.0
+            :duration-s 1800.0 :nodes 15 :threshold-c 160.0}
+   :sweep {:param :thickness-m :values [0.02 0.03 0.04 0.054 0.07]}
+   :quantity :peak-back-c
+   :limit {:max 160.0 :basis "ISO 834-1 insulation criterion: mean unexposed-face rise must not exceed 140 K (from 20 C); door-core properties are estimates"}
+   :boundary {:lo 0.01 :hi 0.10}}]}
