@@ -15,7 +15,7 @@
      kernel/registry parity of the minimum-market-cap listing
      standard, exercised through the real `marketadmin.governor/check`
      façade and the registry constant."
-  (:require [clojure.test :refer [deftest is testing]]
+  (:require [kotoba.test :refer [deftest is testing]]
             [marketadmin.governor :as governor]
             [marketadmin.kernels.gate :as gate]
             [marketadmin.registry :as registry]))

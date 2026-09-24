@@ -2,7 +2,7 @@
   "The phase table as executable tests. The invariant this repo cannot
   regress on: `:listing/admit`/`:trade-halt/lift` must NEVER be a
   member of any phase's `:auto` set."
-  (:require [clojure.test :refer [deftest is testing]]
+  (:require [kotoba.test :refer [deftest is testing]]
             [marketadmin.phase :as phase]))
 
 (deftest listing-admit-never-auto-at-any-phase
